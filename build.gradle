@@ -42,9 +42,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude group: "junit", module: "junit"
     }
-    testImplementation "org.junit.jupiter:junit-jupiter-api"
-    testImplementation "org.junit.jupiter:junit-jupiter-params"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     testImplementation("com.nhaarman:mockito-kotlin:1.6.0")
     runtimeOnly("com.h2database:h2")
@@ -77,10 +74,6 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
-
-jar.enabled = false
-bootJar.enabled = true
-bootJar.mainClassName = 'com.salt.sample.restdocs.Application'
 
 asciidoctor.doFirst {
     delete file('src/main/resources/static/docs')

@@ -1,0 +1,19 @@
+ifndef::snippets[]
+:snippet: ../../../build/generated-snippets
+:root: ./
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+:site-url: /build/asciidoc/html5/
+= User API
+
+= 공통 Response Code
+include::{snippet}/common/response-code-fields.adoc[]
+
+= 사용자 생성 API
+include::{root}/member-create.adoc[]
+

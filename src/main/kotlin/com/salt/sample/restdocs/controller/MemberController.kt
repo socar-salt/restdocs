@@ -2,7 +2,7 @@ package com.salt.sample.restdocs.controller
 
 import com.salt.sample.restdocs.domain.member.Member
 import com.salt.sample.restdocs.dto.ApiResponse
-import com.salt.sample.restdocs.dto.MemberBody
+import com.salt.sample.restdocs.dto.member.request.MemberCreateBody
 import com.salt.sample.restdocs.service.MemberService
 import org.springframework.web.bind.annotation.*
 
@@ -13,7 +13,7 @@ class MemberController(
 ) {
 
     @PostMapping
-    fun createMember(@RequestBody memberBody: MemberBody): ApiResponse<Member> {
+    fun createMember(@RequestBody memberBody: MemberCreateBody): ApiResponse<Long> {
         return ApiResponse.success(memberService.create(Member(memberBody)))
     }
 
@@ -25,7 +25,7 @@ class MemberController(
     @PutMapping("/{memberId}")
     fun updateMember(
             @PathVariable memberId: Long,
-            @RequestBody memberBody: MemberBody): ApiResponse<Member> {
+            @RequestBody memberBody: MemberCreateBody): ApiResponse<Long> {
         return ApiResponse.success(memberService.update(Member(memberBody)))
     }
 
