@@ -11,7 +11,7 @@ import javax.persistence.Table
 class Member(memberCreateBody: MemberCreateBody) : BaseEntity() {
 
     val name: String? = memberCreateBody.name
-    val joinDate: LocalDate? = memberCreateBody.joinDate
+    val joinDate: LocalDate? = LocalDate.parse(memberCreateBody.joinDate, java.time.format.DateTimeFormatter.ISO_DATE)
 
     companion object {
         const val TABLE_NAME = "member"

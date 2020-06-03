@@ -1,5 +1,6 @@
 package com.salt.sample.restdocs
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.salt.sample.restdocs.controller.MemberController
 import com.salt.sample.restdocs.docs.RestApiDocumentUtils.getDocumentRequest
 import com.salt.sample.restdocs.docs.RestApiDocumentUtils.getDocumentResponse
@@ -40,11 +41,14 @@ class MemberTestController {
     @MockBean
     lateinit var memberService: MemberService
 
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
+
     @Test
     fun `restdocs ---- member-create`() {
         // given
         val memberBody = this.genMemberBody()
-        val member = Member(memberBody);
+        val member = Member(memberBody)
         given(memberService.create(member)).willReturn(1L)
 
         // when
@@ -53,7 +57,7 @@ class MemberTestController {
                 .header("x-api-key", "API-KEY")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(memberBody.toString())
+                .content(objectMapper.writeValueAsString(memberBody))
         ).andDo(MockMvcResultHandlers.print())
 
         // then
@@ -83,7 +87,7 @@ class MemberTestController {
     private fun genMemberBody(): MemberCreateBody {
         return MemberCreateBody(
                 "salt",
-                LocalDate.now()
+                "2020-06-15"
         )
     }
 
