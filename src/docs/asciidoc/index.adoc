@@ -1,0 +1,49 @@
+= Rest Docs API Document
+ahndy84.tistory.com
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks: /build/asciidoc/html5/
+ifndef::snippets[]
+:snippet: ../../../build/generated-snippets
+:root: ./
+endif::[]
+
+[[introduction]]
+== 소개
+API Test 코드를 기반으로 RestDocs 문서를 생성해 봅니다.
+
+[[introduction]]
+== 서비스환경
+해당 API서비스의 서버 도메인 환경은 다음과 같습니다.
+
+=== Domain
+|===
+| 환경 | URI
+
+| 개발서버
+| `salt.dev.me`
+
+| 운영서버
+| `salt.dev.kr`
+|===
+
+= 회원정보 서비스 API
+ifndef::snippets[]
+:snippet: ../../../build/generated-snippets
+:root: ./
+endif::[]
+
+= 공통 Response Code
+include::{snippet}/common/response-code-fields.adoc[]
+
+= 사용자 생성 API
+include::{root}/member-create.adoc[]
+= 사용자 조회 API
+include::{root}/member-retrieval.adoc[]
+= 사용자 수정 API
+include::{root}/member-update.adoc[]
+= 사용자 삭제 API
+include::{root}/member-delete.adoc[]

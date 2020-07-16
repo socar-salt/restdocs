@@ -11,14 +11,9 @@ import javax.persistence.*
 @EntityListeners(AuditingEntityListener::class)
 open class BaseEntity: Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
-
     @CreatedDate
     val createdAt: LocalDateTime = LocalDateTime.now()
 
     @LastModifiedDate
     val updatedAt: LocalDateTime = LocalDateTime.now()
-
 }

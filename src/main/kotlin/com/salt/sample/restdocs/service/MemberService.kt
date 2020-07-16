@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class MemberService {
-    fun create(Member: Member): Member? = null
-    fun update(Member: Member): Member? = null
+    fun create(Member: Member): Long? = null
+    fun update(Member: Member): Long? = null
     fun retrieval(MemberId: Long): Member? = null
     fun delete(MemberId: Long): Long? = null
 }
