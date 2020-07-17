@@ -1,4 +1,4 @@
-package com.salt.sample.restdocs.docs
+package com.salt.sample.restdocs.extension
 
 import org.springframework.restdocs.snippet.AbstractDescriptor
 import org.springframework.restdocs.snippet.Attributes.key

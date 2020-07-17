@@ -1,4 +1,4 @@
-package com.salt.sample.restdocs.docs
+package com.salt.sample.restdocs.common.response
 
 import org.springframework.http.MediaType
 import org.springframework.restdocs.operation.Operation

@@ -1,13 +1,12 @@
-package com.salt.sample.restdocs
+package com.salt.sample.restdocs.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.salt.sample.restdocs.controller.MemberController
-import com.salt.sample.restdocs.docs.RestApiDocumentUtils.getDocumentRequest
-import com.salt.sample.restdocs.docs.RestApiDocumentUtils.getDocumentResponse
-import com.salt.sample.restdocs.docs.maxLength
-import com.salt.sample.restdocs.docs.remarks
+import com.salt.sample.restdocs.common.RestApiDocumentation.getDocumentRequest
+import com.salt.sample.restdocs.common.RestApiDocumentation.getDocumentResponse
 import com.salt.sample.restdocs.domain.member.Member
 import com.salt.sample.restdocs.dto.MemberBody
+import com.salt.sample.restdocs.extension.maxLength
+import com.salt.sample.restdocs.extension.remarks
 import com.salt.sample.restdocs.service.MemberService
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

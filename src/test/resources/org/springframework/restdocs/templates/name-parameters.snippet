@@ -1,0 +1,10 @@
+|===
+|파라미터|설명|최대길이|필수여부|에러메시지
+{{#parameters}}
+|{{#tableCellContent}}`+{{name}}+`{{/tableCellContent}}
+|{{#tableCellContent}}{{description}}{{/tableCellContent}}
+|{{#tableCellContent}}{{#maxLength}}{{maxLength}}{{/maxLength}}{{/tableCellContent}}
+|{{#tableCellContent}}{{^optional}}O{{/optional}}{{#optional}}X{{/optional}}{{/tableCellContent}}
+|{{#tableCellContent}}{{#remarks}}{{remarks}}{{/remarks}}{{/tableCellContent}}
+{{/parameters}}
+|===
