@@ -1,4 +1,4 @@
-package com.salt.sample.restdocs.docs
+package com.salt.sample.restdocs.common.response
 
 import com.salt.sample.restdocs.domain.base.enum.ResponseCode
 import org.junit.jupiter.api.Test
@@ -11,6 +11,7 @@ import org.springframework.restdocs.RestDocumentationExtension
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.restdocs.payload.JsonFieldType
+import org.springframework.restdocs.payload.PayloadDocumentation
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.snippet.Attributes
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -32,37 +33,45 @@ class ResponseCodeDocs {
   @Test
   fun `build response code snippet`() {
 
-    mockMvc.perform(get("/response-code")
-            .accept(MediaType.APPLICATION_JSON)
-    ).andDo(MockMvcResultHandlers.print())
-            .andExpect(status().isOk)
-            .andDo(
-                    document(
-                            "common",
-                            responseCodeFields(
-                                    "response-code", //{name}-fields.snippet 이라는 파일명으로 생성
-                                    Attributes.attributes(Attributes.key("title").value("공통 응답 코드")),
-                                    *convertResponseCodeToFieldDescriptor(ResponseCode.values())
-                            )
-                    )
-            )
+	mockMvc.perform(get("/response-code")
+			.accept(MediaType.APPLICATION_JSON)
+	).andDo(MockMvcResultHandlers.print())
+			.andExpect(status().isOk)
+			.andDo(
+					document(
+							"common",
+							responseCodeFields(
+									"response-code", //{name}-fields.snippet 이라는 파일명으로 생성
+									Attributes.attributes(Attributes.key("title").value("공통 응답 코드")),
+									*convertResponseCodeToFieldDescriptor(ResponseCode.values())
+							)
+					)
+			)
   }
 
   fun responseCodeFields(
-          name: String,
-          attributes: Map<String, Any>,
-          vararg descriptors: FieldDescriptor
+		  name: String,
+		  attributes: Map<String, Any>,
+		  vararg descriptors: FieldDescriptor
   ): ResponseCodeSnippet {
-    return ResponseCodeSnippet(name, mutableListOf(*descriptors), attributes, true)
+	return ResponseCodeSnippet(name, mutableListOf(*descriptors), attributes, true)
   }
 
   private fun convertResponseCodeToFieldDescriptor(enumTypes: Array<ResponseCode>): Array<FieldDescriptor> {
-    return Arrays.stream(enumTypes)
-            .map {
-              fieldWithPath(it.code.toString()).type(JsonFieldType.NUMBER).description(it.message).optional()
-            }
-            .collect(Collectors.toList())
-            .toTypedArray()
+	return Arrays.stream(enumTypes)
+			.map {
+			  fieldWithPath(it.code.toString()).type(JsonFieldType.NUMBER).description(it.message).optional()
+			}
+			.collect(Collectors.toList())
+			.toTypedArray()
   }
+
+  private fun common(): Array<FieldDescriptor> {
+	return arrayOf(
+		fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+		fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지"),
+		PayloadDocumentation.subsectionWithPath("data").type(JsonFieldType.OBJECT).description("응답 Data").optional()
+	)
+}
 }
 

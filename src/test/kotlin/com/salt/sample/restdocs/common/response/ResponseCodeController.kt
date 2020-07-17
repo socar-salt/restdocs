@@ -1,4 +1,4 @@
-package com.salt.sample.restdocs.docs
+package com.salt.sample.restdocs.common.response
 
 import com.salt.sample.restdocs.dto.ApiResponse
 import org.springframework.web.bind.annotation.GetMapping
