@@ -1,7 +1,7 @@
 package com.salt.sample.restdocs.domain.member
 
 import com.salt.sample.restdocs.domain.base.BaseEntity
-import com.salt.sample.restdocs.dto.MemberBody
+import com.salt.sample.restdocs.dto.member.request.MemberBody
 import java.time.LocalDate
 import javax.persistence.Entity
 import javax.persistence.Id
