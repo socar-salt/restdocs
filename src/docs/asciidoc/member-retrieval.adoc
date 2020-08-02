@@ -1,0 +1,19 @@
+[[introduction]]
+=== 소개
+회원정보를 수정합니다.
+
+=== Request
+
+==== [Request Headers]
+include::{snippet}/member-retrieval/request-headers.adoc[]
+
+==== [Request HTTP Example]
+include::{snippet}/member-retrieval/http-request.adoc[]
+
+=== Response
+
+==== [Response Fields]
+include::{snippet}/member-retrieval/response-fields.adoc[]
+
+==== [Response HTTP Example]
+include::{snippet}/member-retrieval/http-response.adoc[]

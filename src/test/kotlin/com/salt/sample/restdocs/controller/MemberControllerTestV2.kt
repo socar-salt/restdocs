@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.salt.sample.restdocs.common.ControllerTester
 import com.salt.sample.restdocs.common.TestProperty
 import com.salt.sample.restdocs.domain.member.Member
-import com.salt.sample.restdocs.dto.MemberBody
+import com.salt.sample.restdocs.dto.member.request.MemberBody
 import com.salt.sample.restdocs.service.MemberService
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
@@ -33,7 +33,7 @@ class MemberTestControllerV2 {
     lateinit var objectMapper: ObjectMapper
 
     @Test
-    fun `회원등록 ****************************** CreateMember V2`() {
+    fun `****************************** CreateMember V2`() {
 
         val requestBody = MemberBody(1L, "salt")
         val dummy = arrayOf(
@@ -49,11 +49,11 @@ class MemberTestControllerV2 {
         tester.post("/member", objectMapper.writeValueAsString(requestBody))
 
         // then
-        tester.expectAndMakeDocument("member-create", JsonFieldType.NUMBER)
+        tester.makeDocument("member-create", JsonFieldType.NUMBER)
     }
 
     @Test
-    fun `회원검색 ****************************** retrievalMember V2`() {
+    fun `****************************** retrievalMember V2`() {
 
         val memberId = 1L
         val tester = ControllerTester(mockMvc, arrayOf())
@@ -65,14 +65,12 @@ class MemberTestControllerV2 {
         tester.get("/member/$memberId")
 
         // then
-        tester.expectAndMakeDocument(
-            "member-retrieval",
-            JsonFieldType.OBJECT
-        )
+        tester.makeDocument("member-retrieval", JsonFieldType.OBJECT)
     }
 
     @Test
-    fun `회원수정 ****************************** updateMember V2`() {
+    fun `****************************** updateMember V2`() {
+
         val memberId = 1L
         val requestBody = MemberBody(memberId, "sugar")
         val dummy = arrayOf(
@@ -88,12 +86,12 @@ class MemberTestControllerV2 {
         tester.put("/member/$memberId", objectMapper.writeValueAsString(requestBody))
 
         // then
-        tester.expectAndMakeDocument("member-update", JsonFieldType.NUMBER)
+        tester.makeDocument("member-update", JsonFieldType.NUMBER)
 
     }
 
     @Test
-    fun `회원삭제 ****************************** deleteMember V2`() {
+    fun `****************************** deleteMember V2`() {
         val memberId = 1L
         val tester = ControllerTester(mockMvc)
 
@@ -104,6 +102,6 @@ class MemberTestControllerV2 {
         tester.delete("/member/$memberId")
 
         // then
-        tester.expectAndMakeDocument("member-delete", JsonFieldType.NUMBER)
+        tester.makeDocument("member-delete", JsonFieldType.NUMBER)
     }
 }

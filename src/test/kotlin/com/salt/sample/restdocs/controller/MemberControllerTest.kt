@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.salt.sample.restdocs.common.RestApiDocumentation.getDocumentRequest
 import com.salt.sample.restdocs.common.RestApiDocumentation.getDocumentResponse
 import com.salt.sample.restdocs.domain.member.Member
-import com.salt.sample.restdocs.dto.MemberBody
+import com.salt.sample.restdocs.dto.member.request.MemberBody
 import com.salt.sample.restdocs.extension.maxLength
 import com.salt.sample.restdocs.extension.remarks
 import com.salt.sample.restdocs.service.MemberService
@@ -47,7 +47,7 @@ class MemberTestController {
     lateinit var objectMapper: ObjectMapper
 
     @Test
-    fun `회원등록 ****************************** CreateMember`() {
+    fun `****************************** CreateMember`() {
 
         val requestBody = mapOf(
             "id" to 1L,
@@ -89,7 +89,7 @@ class MemberTestController {
     }
 
     @Test
-    fun `회원검색 ****************************** retrievalMember`() {
+    fun `****************************** retrievalMember`() {
 
         // given
         given(memberService.retrieval((eq(1L))))
@@ -133,7 +133,7 @@ class MemberTestController {
     }
 
     @Test
-    fun `회원수정 ****************************** updateMember`() {
+    fun `****************************** updateMember`() {
 
         val requestBody = mapOf(
             "id" to 1L,
@@ -178,7 +178,7 @@ class MemberTestController {
     }
 
     @Test
-    fun `회원삭제 ****************************** deleteMember`() {
+    fun `****************************** deleteMember`() {
 
         // given
         given(memberService.delete(1L))

@@ -1,15 +1,19 @@
 = Rest Docs API Document
 ahndy84.tistory.com
+ifndef::snippets[]
+:snippet: ../../../build/generated-snippets
+:root: ./
+endif::[]
+
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
 :toclevels: 4
 :sectlinks: /build/asciidoc/html5/
-ifndef::snippets[]
-:snippet: ../../../build/generated-snippets
-:root: ./
-endif::[]
+
+= Rest Docs API Document
+ahndy84.tistory.com
 
 [[introduction]]
 == 소개
@@ -46,4 +50,16 @@ include::{root}/member-retrieval.adoc[]
 = 사용자 수정 API
 include::{root}/member-update.adoc[]
 = 사용자 삭제 API
+
+== 공통 Response Code
+include::{snippet}/common/response-code-fields.adoc[]
+
+= 회원정보 서비스 API
+== 사용자 생성 API
+include::{root}/member-create.adoc[]
+== 사용자 조회 API
+include::{root}/member-retrieval.adoc[]
+== 사용자 수정 API
+include::{root}/member-update.adoc[]
+== 사용자 삭제 API
 include::{root}/member-delete.adoc[]

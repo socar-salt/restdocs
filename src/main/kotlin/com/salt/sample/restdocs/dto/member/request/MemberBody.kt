@@ -1,4 +1,4 @@
-package com.salt.sample.restdocs.dto
+package com.salt.sample.restdocs.dto.member.request
 
 import java.time.LocalDate
 

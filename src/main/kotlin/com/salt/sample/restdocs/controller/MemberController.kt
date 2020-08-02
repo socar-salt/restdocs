@@ -2,7 +2,7 @@ package com.salt.sample.restdocs.controller
 
 import com.salt.sample.restdocs.domain.member.Member
 import com.salt.sample.restdocs.dto.ApiResponse
-import com.salt.sample.restdocs.dto.MemberBody
+import com.salt.sample.restdocs.dto.member.request.MemberBody
 import com.salt.sample.restdocs.service.MemberService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
