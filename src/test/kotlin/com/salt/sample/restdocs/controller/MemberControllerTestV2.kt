@@ -80,10 +80,10 @@ class MemberTestControllerV2 {
         val tester = ControllerTester(mockMvc, dummy)
 
         // given
-        given(memberService.update(Member(requestBody))).willReturn(1L)
+        given(memberService.update(Member(requestBody))).willReturn(memberId)
 
         // when
-        tester.put("/member/$memberId", objectMapper.writeValueAsString(requestBody))
+        tester.put("/member/$memberId", memberId, objectMapper.writeValueAsString(requestBody))
 
         // then
         tester.makeDocument("member-update", JsonFieldType.NUMBER)
@@ -99,7 +99,7 @@ class MemberTestControllerV2 {
         given(memberService.delete(memberId)).willReturn(1L)
 
         // when
-        tester.delete("/member/$memberId")
+        tester.delete("/member/$memberId", memberId)
 
         // then
         tester.makeDocument("member-delete", JsonFieldType.NUMBER)

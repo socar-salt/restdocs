@@ -40,31 +40,31 @@ class ControllerTester(
             .andDo(MockMvcResultHandlers.print())
     }
 
-    fun post(path: String, pastParameters: String) {
+    fun post(path: String, postParameters: String) {
         resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders.post(path)
                 .header("x-api-key", "API-KEY")
                 .header("X-Auth-Token", "X-AUTH-TOKEN")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(pastParameters)
+                .content(postParameters)
         ).andDo(MockMvcResultHandlers.print())
     }
 
-    fun put(path: String, pastParameters: String) {
+    fun put(path: String, pathVariable: Long, postParameters: String) {
         resultActions = mockMvc.perform(
-                RestDocumentationRequestBuilders.put(path, 1)
+                RestDocumentationRequestBuilders.put(path, pathVariable)
                         .header("x-api-key", "API-KEY")
                         .header("X-Auth-Token", "X-AUTH-TOKEN")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(pastParameters)
+                        .content(postParameters)
         ).andDo(MockMvcResultHandlers.print())
     }
 
-    fun delete(path: String) {
+    fun delete(path: String, pathVariable: Long) {
         resultActions = mockMvc.perform(
-                RestDocumentationRequestBuilders.delete(path, 1)
+                RestDocumentationRequestBuilders.delete(path, pathVariable)
                         .header("x-api-key", "API-KEY")
                         .header("X-Auth-Token", "X-AUTH-TOKEN")
                         .accept(MediaType.APPLICATION_JSON)
