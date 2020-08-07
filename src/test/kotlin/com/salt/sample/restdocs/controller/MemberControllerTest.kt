@@ -9,15 +9,12 @@ import com.salt.sample.restdocs.extension.maxLength
 import com.salt.sample.restdocs.extension.remarks
 import com.salt.sample.restdocs.service.MemberService
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.restdocs.RestDocumentationExtension
 import org.springframework.test.web.servlet.MockMvc
-import org.mockito.ArgumentMatchers.eq
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
 import org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders
@@ -28,43 +25,38 @@ import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.pathParameters
-import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.time.LocalDate
 
-@ExtendWith(RestDocumentationExtension::class, SpringExtension::class)
 @WebMvcTest(MemberController::class)
 @AutoConfigureRestDocs
-class MemberTestController {
-
-    @Autowired
-    lateinit var mockMvc: MockMvc
-
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+class MemberControllerTest(
+    private var mockMvc: MockMvc,
+    private var objectMapper: ObjectMapper
+) {
     @MockBean
     lateinit var memberService: MemberService
 
-    @Autowired
-    lateinit var objectMapper: ObjectMapper
-
     @Test
-    fun `****************************** CreateMember`() {
+    fun `member-create`() {
 
-        val requestBody = mapOf(
-            "id" to 1L,
-            "name" to "salt"
-        )
+        val memberId = 1L
+        val memberBody = MemberBody(memberId, "salt", LocalDate.now())
 
         // given
-        given(memberService.create(Member(MemberBody(1L, "salt"))))
+        given(memberService.create(Member(memberBody)))
             .willReturn(1L)
 
         // when
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders.post("/member")
                 .header("x-api-key", "salt12345aaa")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(requestBody))
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(memberBody))
         ).andDo(MockMvcResultHandlers.print())
 
         // then
@@ -76,28 +68,37 @@ class MemberTestController {
                     getDocumentRequest(),
                     getDocumentResponse(),
                     requestHeaders(
-                        headerWithName("x-api-key").description("salt12345aaa")
+                        headerWithName("x-api-key")
+                            .description("API 키")
                     ),
                     responseFields(
-                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지"),
-                        fieldWithPath("data").type(JsonFieldType.NUMBER).description("응답데이터").optional(),
-                        fieldWithPath("error").type(JsonFieldType.OBJECT).description("에러데이터").optional()
+                        fieldWithPath("code")
+                            .type(JsonFieldType.NUMBER)
+                            .description("응답 코드"),
+                        fieldWithPath("message")
+                            .type(JsonFieldType.STRING)
+                            .description("응답 메세지"),
+                        fieldWithPath("data")
+                            .type(JsonFieldType.NUMBER)
+                            .description("응답데이터").optional()
                     )
                 )
             )
     }
 
     @Test
-    fun `****************************** retrievalMember`() {
+    fun `member-retrieval`() {
+
+        val memberId = 1L
+        val memberBody = MemberBody(memberId, "salt", LocalDate.now())
 
         // given
-        given(memberService.retrieval((eq(1L))))
-            .willReturn(Member(MemberBody(1L, "salt")))
+        given(memberService.retrieval(memberId))
+            .willReturn(Member(memberBody))
 
         // when
         val resultAction = mockMvc.perform(
-            RestDocumentationRequestBuilders.get("/member/{memberId}", 1L)
+            RestDocumentationRequestBuilders.get("/member/{memberId}", memberId)
                 .header("x-api-key", "salt12345aaa")
                 .accept(MediaType.APPLICATION_JSON)
         ).andDo(MockMvcResultHandlers.print())
@@ -111,46 +112,63 @@ class MemberTestController {
                     getDocumentRequest(),
                     getDocumentResponse(),
                     requestHeaders(
-                        headerWithName("x-api-key").description("salt12345aaa")
+                        headerWithName("x-api-key")
+                            .description("API 키")
                     ),
                     pathParameters(
-                        parameterWithName("memberId").description("회원번호").maxLength(11).remarks("회원번호를 찾을 수 없습니다.")
+                        parameterWithName("memberId")
+                            .description("회원번호")
+                            .maxLength(11)
+                            .remarks("회원번호를 찾을 수 없습니다.")
                     ),
                     responseFields(
-                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지"),
-                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("응답데이터").optional(),
-                        fieldWithPath("error").type(JsonFieldType.OBJECT).description("에러데이터").optional()
+                        fieldWithPath("code")
+                            .type(JsonFieldType.NUMBER)
+                            .description("응답 코드"),
+                        fieldWithPath("message")
+                            .type(JsonFieldType.STRING)
+                            .description("응답 메세지"),
+                        fieldWithPath("data")
+                            .type(JsonFieldType.OBJECT)
+                            .description("응답데이터").optional()
                     ).andWithPrefix("data.",
-                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원번호"),
-                        fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
-                        fieldWithPath("joinDate").type(JsonFieldType.STRING).description("가입일"),
-                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성일"),
-                        fieldWithPath("updatedAt").type(JsonFieldType.STRING).description("수정일")
+                        fieldWithPath("id")
+                            .type(JsonFieldType.NUMBER)
+                            .description("회원번호"),
+                        fieldWithPath("name")
+                            .type(JsonFieldType.STRING)
+                            .description("이름"),
+                        fieldWithPath("joinDate")
+                            .type(JsonFieldType.STRING)
+                            .description("가입일"),
+                        fieldWithPath("createdAt")
+                            .type(JsonFieldType.STRING)
+                            .description("생성일"),
+                        fieldWithPath("updatedAt")
+                            .type(JsonFieldType.STRING)
+                            .description("수정일")
                     )
                 )
             )
     }
 
     @Test
-    fun `****************************** updateMember`() {
+    fun `member-update`() {
 
-        val requestBody = mapOf(
-            "id" to 1L,
-            "name" to "sugar"
-        )
+        val memberId = 1L
+        val memberBody = MemberBody(memberId, "sugar", LocalDate.now())
 
         // given
-        given(memberService.update(Member(MemberBody(1L, "sugar"))))
+        given(memberService.update(Member(memberBody)))
             .willReturn(1L)
 
         // when
         val resultActions = mockMvc.perform(
-            RestDocumentationRequestBuilders.put("/member/{memberId}", 1)
-                .header("x-api-key", "API_KEY")
+            RestDocumentationRequestBuilders.put("/member/{memberId}", memberId)
+                .header("x-api-key", "salt12345aaa")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(requestBody))
+                .content(objectMapper.writeValueAsString(memberBody))
         ).andDo(MockMvcResultHandlers.print())
 
         // then
@@ -162,31 +180,42 @@ class MemberTestController {
                     getDocumentRequest(),
                     getDocumentResponse(),
                     requestHeaders(
-                        headerWithName("x-api-key").description("salt12345aaa")
+                        headerWithName("x-api-key")
+                            .description("API 키")
                     ),
                     pathParameters(
-                        parameterWithName("memberId").description("회원번호").maxLength(11).remarks("회원번호")
+                        parameterWithName("memberId")
+                            .description("회원번호")
+                            .maxLength(11)
+                            .remarks("회원번호를 찾을 수 없습니다.")
                     ),
                     responseFields(
-                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지"),
-                        fieldWithPath("data").type(JsonFieldType.NUMBER).description("응답데이터").optional(),
-                        fieldWithPath("error").type(JsonFieldType.OBJECT).description("에러데이터").optional()
+                        fieldWithPath("code")
+                            .type(JsonFieldType.NUMBER)
+                            .description("응답 코드"),
+                        fieldWithPath("message")
+                            .type(JsonFieldType.STRING)
+                            .description("응답 메세지"),
+                        fieldWithPath("data")
+                            .type(JsonFieldType.NUMBER)
+                            .description("응답데이터").optional()
                     )
                 )
             )
     }
 
     @Test
-    fun `****************************** deleteMember`() {
+    fun `member-delete`() {
+
+        val memberId = 1L
 
         // given
-        given(memberService.delete(1L))
+        given(memberService.delete(memberId))
             .willReturn(1L)
 
         // when
         val resultActions = mockMvc.perform(
-            RestDocumentationRequestBuilders.delete("/member/{memberId}", 1L)
+            RestDocumentationRequestBuilders.delete("/member/{memberId}", memberId)
                 .header("x-api-key", "salt12345aaa")
                 .accept(MediaType.APPLICATION_JSON)
             ).andDo(MockMvcResultHandlers.print())
@@ -200,16 +229,25 @@ class MemberTestController {
                     getDocumentRequest(),
                     getDocumentResponse(),
                     requestHeaders(
-                        headerWithName("x-api-key").description("salt12345aaa")
+                        headerWithName("x-api-key")
+                            .description("API 키")
                     ),
                     pathParameters(
-                        parameterWithName("memberId").description("회원번호").maxLength(11).remarks("회원번호를 찾을 수 없습니다.")
+                        parameterWithName("memberId")
+                            .description("회원번호")
+                            .maxLength(11)
+                            .remarks("회원번호를 찾을 수 없습니다.")
                     ),
                     responseFields(
-                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
-                        fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지"),
-                        fieldWithPath("data").type(JsonFieldType.NUMBER).description("응답데이터").optional(),
-                        fieldWithPath("error").type(JsonFieldType.OBJECT).description("에러데이터").optional()
+                        fieldWithPath("code")
+                            .type(JsonFieldType.NUMBER)
+                            .description("응답 코드"),
+                        fieldWithPath("message")
+                            .type(JsonFieldType.STRING)
+                            .description("응답 메세지"),
+                        fieldWithPath("data")
+                            .type(JsonFieldType.NUMBER)
+                            .description("응답데이터").optional()
                     )
                 )
             )

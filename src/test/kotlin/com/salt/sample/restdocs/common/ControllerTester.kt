@@ -23,12 +23,14 @@ class ControllerTester(
     private val properties: Array<TestProperty> = arrayOf()
 ) {
     private var resultActions: ResultActions? = null
+    private val apiKey = "salt1234aa"
+    private val apiToken = "saltAuthToken11112222"
 
     fun get(path: String) {
         val request = RestDocumentationRequestBuilders
             .get(path)
-            .header("x-api-key", "API-KEY")
-            .header("X-Auth-Token", "X-AUTH-TOKEN")
+            .header("api-key", apiKey)
+            .header("Auth-Token", apiToken)
             .accept(MediaType.APPLICATION_JSON)
 
         properties.forEach {
@@ -43,8 +45,8 @@ class ControllerTester(
     fun post(path: String, postParameters: String) {
         resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders.post(path)
-                .header("x-api-key", "API-KEY")
-                .header("X-Auth-Token", "X-AUTH-TOKEN")
+                .header("x-api-key", apiKey)
+                .header("X-Auth-Token", apiToken)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(postParameters)
@@ -54,8 +56,8 @@ class ControllerTester(
     fun put(path: String, pathVariable: Long, postParameters: String) {
         resultActions = mockMvc.perform(
                 RestDocumentationRequestBuilders.put(path, pathVariable)
-                        .header("x-api-key", "API-KEY")
-                        .header("X-Auth-Token", "X-AUTH-TOKEN")
+                        .header("x-api-key", apiKey)
+                        .header("X-Auth-Token", apiToken)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(postParameters)
@@ -65,8 +67,8 @@ class ControllerTester(
     fun delete(path: String, pathVariable: Long) {
         resultActions = mockMvc.perform(
                 RestDocumentationRequestBuilders.delete(path, pathVariable)
-                        .header("x-api-key", "API-KEY")
-                        .header("X-Auth-Token", "X-AUTH-TOKEN")
+                        .header("x-api-key", apiKey)
+                        .header("X-Auth-Token", apiToken)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         ).andDo(MockMvcResultHandlers.print())
