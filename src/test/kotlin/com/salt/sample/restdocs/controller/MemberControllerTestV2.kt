@@ -12,40 +12,37 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.restdocs.payload.JsonFieldType
 import org.springframework.test.context.TestConstructor
+import java.time.LocalDate
 
-@AutoConfigureRestDocs
-@AutoConfigureMockMvc
 @WebMvcTest(MemberController::class)
+@AutoConfigureRestDocs
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class MemberTestControllerV2 {
-
-    @Autowired
-    lateinit var mockMvc: MockMvc
+class MemberControllerTestV2(
+    private var mockMvc: MockMvc,
+    private var objectMapper: ObjectMapper
+) {
 
     @MockBean
     lateinit var memberService: MemberService
 
-    @Autowired
-    lateinit var objectMapper: ObjectMapper
-
     @Test
-    fun `****************************** CreateMember V2`() {
+    fun `member-create-V2`() {
 
-        val requestBody = MemberBody(1L, "salt")
-        val dummy = arrayOf(
-            TestProperty("id", requestBody.id.toString()),
-            TestProperty("name", requestBody.name)
-        )
-        val tester = ControllerTester(mockMvc, dummy)
+        val requestBody = MemberBody(1L, "salt", LocalDate.now())
+
 
         // given
         given(memberService.create(Member(requestBody))).willReturn(1L)
 
         // when
+        val dummy = arrayOf(
+            TestProperty("id", "회원번호", requestBody.id.toString()),
+            TestProperty("name", "이름", requestBody.name),
+            TestProperty("joinDate", "가입일", requestBody.joinDate.toString())
+        )
+        val tester = ControllerTester(mockMvc, dummy)
         tester.post("/member", objectMapper.writeValueAsString(requestBody))
 
         // then
@@ -53,13 +50,13 @@ class MemberTestControllerV2 {
     }
 
     @Test
-    fun `****************************** retrievalMember V2`() {
+    fun `member-retrieval-V2`() {
 
         val memberId = 1L
         val tester = ControllerTester(mockMvc, arrayOf())
 
         // given
-        given(memberService.retrieval(memberId)).willReturn(Member(MemberBody(memberId, "salt")))
+        given(memberService.retrieval(memberId)).willReturn(Member(MemberBody(memberId, "salt", LocalDate.now())))
 
         // when
         tester.get("/member/$memberId")
@@ -69,10 +66,10 @@ class MemberTestControllerV2 {
     }
 
     @Test
-    fun `****************************** updateMember V2`() {
+    fun `member-update-V2`() {
 
         val memberId = 1L
-        val requestBody = MemberBody(memberId, "sugar")
+        val requestBody = MemberBody(memberId, "sugar", LocalDate.now())
         val dummy = arrayOf(
             TestProperty("id", requestBody.id.toString()),
             TestProperty("name", requestBody.name)
@@ -80,10 +77,10 @@ class MemberTestControllerV2 {
         val tester = ControllerTester(mockMvc, dummy)
 
         // given
-        given(memberService.update(Member(requestBody))).willReturn(1L)
+        given(memberService.update(Member(requestBody))).willReturn(memberId)
 
         // when
-        tester.put("/member/$memberId", objectMapper.writeValueAsString(requestBody))
+        tester.put("/member/$memberId", memberId, objectMapper.writeValueAsString(requestBody))
 
         // then
         tester.makeDocument("member-update", JsonFieldType.NUMBER)
@@ -91,7 +88,7 @@ class MemberTestControllerV2 {
     }
 
     @Test
-    fun `****************************** deleteMember V2`() {
+    fun `member-delete-V2`() {
         val memberId = 1L
         val tester = ControllerTester(mockMvc)
 
@@ -99,7 +96,7 @@ class MemberTestControllerV2 {
         given(memberService.delete(memberId)).willReturn(1L)
 
         // when
-        tester.delete("/member/$memberId")
+        tester.delete("/member/$memberId", memberId)
 
         // then
         tester.makeDocument("member-delete", JsonFieldType.NUMBER)

@@ -1,3 +1,16 @@
+= Rest Docs API Document
+ahndy84.tistory.com
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks: /build/asciidoc/html5/
+ifndef::snippets[]
+:snippet: ../../../build/generated-snippets
+:root: ./
+endif::[]
+
 [[introduction]]
 === 소개
 회원정보를 수정합니다.
