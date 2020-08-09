@@ -30,20 +30,20 @@ class MemberControllerTestV2(
     @Test
     fun `member-create-V2`() {
 
-        val requestBody = MemberBody(1L, "salt", LocalDate.now())
-
+        val memberId = 1L
+        val memberBody = MemberBody(memberId, "salt", LocalDate.now())
 
         // given
-        given(memberService.create(Member(requestBody))).willReturn(1L)
+        given(memberService.create(memberBody)).willReturn(memberId)
 
         // when
         val dummy = arrayOf(
-            TestProperty("id", "회원번호", requestBody.id.toString()),
-            TestProperty("name", "이름", requestBody.name),
-            TestProperty("joinDate", "가입일", requestBody.joinDate.toString())
+            TestProperty("id", "회원번호", memberBody.id.toString()),
+            TestProperty("name", "이름", memberBody.name),
+            TestProperty("joinDate", "가입일", memberBody.joinDate.toString())
         )
         val tester = ControllerTester(mockMvc, dummy)
-        tester.post("/member", objectMapper.writeValueAsString(requestBody))
+        tester.post("/member", objectMapper.writeValueAsString(memberBody))
 
         // then
         tester.makeDocument("member-create", JsonFieldType.NUMBER)
@@ -69,18 +69,18 @@ class MemberControllerTestV2(
     fun `member-update-V2`() {
 
         val memberId = 1L
-        val requestBody = MemberBody(memberId, "sugar", LocalDate.now())
+        val memberBody = MemberBody(memberId, "sugar", LocalDate.now())
         val dummy = arrayOf(
-            TestProperty("id", requestBody.id.toString()),
-            TestProperty("name", requestBody.name)
+            TestProperty("id", memberBody.id.toString()),
+            TestProperty("name", memberBody.name)
         )
         val tester = ControllerTester(mockMvc, dummy)
 
         // given
-        given(memberService.update(Member(requestBody))).willReturn(memberId)
+        given(memberService.update(memberBody)).willReturn(memberId)
 
         // when
-        tester.put("/member/$memberId", memberId, objectMapper.writeValueAsString(requestBody))
+        tester.put("/member/$memberId", memberId, objectMapper.writeValueAsString(memberBody))
 
         // then
         tester.makeDocument("member-update", JsonFieldType.NUMBER)
@@ -93,7 +93,7 @@ class MemberControllerTestV2(
         val tester = ControllerTester(mockMvc)
 
         // given
-        given(memberService.delete(memberId)).willReturn(1L)
+        given(memberService.delete(memberId)).willReturn(memberId)
 
         // when
         tester.delete("/member/$memberId", memberId)

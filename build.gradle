@@ -43,6 +43,7 @@ dependencies {
     testImplementation("com.nhaarman:mockito-kotlin:1.6.0")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("mysql:mysql-connector-java")
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin")
 }
 
 ext {

@@ -15,7 +15,7 @@ class MemberController(
 
     @PostMapping
     fun createMember(@RequestBody memberBody: MemberBody): ResponseEntity<ApiResponse<Long>> {
-        val response = ApiResponse.success(memberService.create(Member(memberBody)))
+        val response = ApiResponse.success(memberService.create(memberBody))
         return ResponseEntity.ok().body(response)
     }
 
@@ -29,7 +29,7 @@ class MemberController(
     fun updateMember(
             @PathVariable memberId: Long,
             @RequestBody memberBody: MemberBody): ResponseEntity<ApiResponse<Long>> {
-        val response = ApiResponse.success(memberService.update(Member(memberBody)))
+        val response = ApiResponse.success(memberService.update(memberBody))
         return ResponseEntity.ok().body(response)
     }
 

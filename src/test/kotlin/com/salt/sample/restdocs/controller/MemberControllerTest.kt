@@ -47,8 +47,8 @@ class MemberControllerTest(
         val memberBody = MemberBody(memberId, "salt", LocalDate.now())
 
         // given
-        given(memberService.create(Member(memberBody)))
-            .willReturn(1L)
+        given(memberService.create(memberBody))
+            .willReturn(memberId)
 
         // when
         val resultActions = mockMvc.perform(
@@ -100,7 +100,7 @@ class MemberControllerTest(
         val resultAction = mockMvc.perform(
             RestDocumentationRequestBuilders.get("/member/{memberId}", memberId)
                 .header("x-api-key", "salt12345aaa")
-                .accept(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
         ).andDo(MockMvcResultHandlers.print())
 
         // then
@@ -159,15 +159,15 @@ class MemberControllerTest(
         val memberBody = MemberBody(memberId, "sugar", LocalDate.now())
 
         // given
-        given(memberService.update(Member(memberBody)))
-            .willReturn(1L)
+        given(memberService.update(memberBody))
+            .willReturn(memberId)
 
         // when
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders.put("/member/{memberId}", memberId)
                 .header("x-api-key", "salt12345aaa")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(memberBody))
         ).andDo(MockMvcResultHandlers.print())
 
@@ -211,13 +211,13 @@ class MemberControllerTest(
 
         // given
         given(memberService.delete(memberId))
-            .willReturn(1L)
+            .willReturn(memberId)
 
         // when
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders.delete("/member/{memberId}", memberId)
                 .header("x-api-key", "salt12345aaa")
-                .accept(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
             ).andDo(MockMvcResultHandlers.print())
 
         // then
