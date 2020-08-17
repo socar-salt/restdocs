@@ -1,41 +1,25 @@
-= Rest Docs API Document
-ahndy84.tistory.com
-:doctype: book
-:icons: font
-:source-highlighter: highlightjs
-:toc: left
-:toclevels: 4
-:sectlinks: /build/asciidoc/html5/
-ifndef::snippets[]
+ifndef::snippet[]
 :snippet: ../../../build/generated-snippets
-:root: ./
 endif::[]
-
 [[introduction]]
 == 소개
 회원정보를 등록합니다.
 
 == Request
 
-=== [Request URL]
-....
-GET /member
-Content-Type: application/json;charset=UTF-8
-....
-
 === [Request Headers]
-include::{snippets}/member-create/request-headers.adoc[]
+include::{snippet}/member-create/request-headers.adoc[]
 
 === [Request Body]
-include::{snippets}/member-create/request-body.adoc[]
+include::{snippet}/member-create/request-body.adoc[]
 
 === [Request HTTP Example]
-include::{snippets}/member-create/http-request.adoc[]
+include::{snippet}/member-create/http-request.adoc[]
 
 == Response
 
 === [Response Fields]
-include::{snippets}/member-create/response-fields.adoc[]
+include::{snippet}/member-create/response-fields.adoc[]
 
 === [Response HTTP Example]
-include::{snippets}/member-create/http-response.adoc[]
+include::{snippet}/member-create/http-response.adoc[]

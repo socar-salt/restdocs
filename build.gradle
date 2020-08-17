@@ -43,7 +43,6 @@ dependencies {
     testImplementation("com.nhaarman:mockito-kotlin:1.6.0")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("mysql:mysql-connector-java")
-    compile("com.fasterxml.jackson.module:jackson-module-kotlin")
 }
 
 ext {
@@ -77,23 +76,37 @@ jar.enabled = false
 bootJar.enabled = true
 bootJar.mainClassName = 'com.salt.sample.restdocs.Application'
 
+ext {
+    set('snippetsDir', file("build/generated-snippets"))
+}
+
+test {
+    useJUnitPlatform()
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
 asciidoctor.doFirst {
-    println("---------------- asciidoctor is Start!!")
+    println("---------------- delete present asciidoctor.")
     delete file('src/main/resources/static/docs')
 }
 
 asciidoctor.doLast {
-    println("---------------- asciidoctor is Finish!!")
+    println("---------------- asciidoctor is deleted!")
 }
 
-task copyDocument(type: Copy) {
+task copyHTML(type: Copy) {
     dependsOn asciidoctor
     from file("build/asciidoc/html5")
     into file("src/main/resources/static/docs")  // resources/static/docs 로 복사하여 서버가 돌아가고 있을때 /docs/index.html 로 접속하면 볼수 있음
 }
 
 build {
-    dependsOn copyDocument
+    dependsOn copyHTML
 }
 
 bootJar {

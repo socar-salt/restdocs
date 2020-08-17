@@ -13,7 +13,7 @@ import org.springframework.restdocs.request.RequestDocumentation
 
 object CommonDocumentation {
     fun header(): Array<HeaderDescriptor> {
-        return arrayOf(HeaderDocumentation.headerWithName("x-api-key").description("API 키"))
+        return arrayOf(HeaderDocumentation.headerWithName("api-key").description("API 키"))
     }
 
     fun customRequestParameters(

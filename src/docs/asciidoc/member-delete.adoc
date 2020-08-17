@@ -1,14 +1,5 @@
-= Rest Docs API Document
-ahndy84.tistory.com
-:doctype: book
-:icons: font
-:source-highlighter: highlightjs
-:toc: left
-:toclevels: 4
-:sectlinks: /build/asciidoc/html5/
-ifndef::snippets[]
+ifndef::snippet[]
 :snippet: ../../../build/generated-snippets
-:root: ./
 endif::[]
 
 [[introduction]]
@@ -17,26 +8,20 @@ endif::[]
 
 == Request
 
-=== [Request URL]
-....
-GET /member/{userId}
-Content-Type: application/json;charset=UTF-8
-....
-
 === [Request Headers]
-include::{snippets}/member-delete/request-headers.adoc[]
+include::{snippet}/member-delete/request-headers.adoc[]
 
 === [Request Path Parameters]
-include::{snippets}/member-delete/path-parameters.adoc[]
+include::{snippet}/member-delete/path-parameters.adoc[]
 
 === [Request HTTP Example]
-include::{snippets}/member-delete/http-request.adoc[]
+include::{snippet}/member-delete/http-request.adoc[]
 
 
 == Response
 
 === [Response Fields]
-include::{snippets}/member-delete/response-fields.adoc[]
+include::{snippet}/member-delete/response-fields.adoc[]
 
 === [Response HTTP Example]
-include::{snippets}/member-delete/http-response.adoc[]
+include::{snippet}/member-delete/http-response.adoc[]
