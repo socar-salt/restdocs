@@ -11,7 +11,8 @@ object RestApiDocumentation {
     return Preprocessors.preprocessRequest(
             modifyUris()
               .scheme("http")
-              .host("salt.api.com")
+              .host("salt.dev")
+              .port(8085)
               .removePort(),
             Preprocessors.prettyPrint()
     )

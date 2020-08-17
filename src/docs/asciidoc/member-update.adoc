@@ -1,14 +1,5 @@
-= Rest Docs API Document
-ahndy84.tistory.com
-:doctype: book
-:icons: font
-:source-highlighter: highlightjs
-:toc: left
-:toclevels: 4
-:sectlinks: /build/asciidoc/html5/
-ifndef::snippets[]
+ifndef::snippet[]
 :snippet: ../../../build/generated-snippets
-:root: ./
 endif::[]
 
 [[introduction]]
@@ -17,32 +8,22 @@ endif::[]
 
 == Request
 
-=== [Request URL]
-....
-PUT /member/{userId}
-Content-Type: application/json;charset=UTF-8
-....
-
 === [Request Headers]
-include::{snippets}/member-update/request-headers.adoc[]
+include::{snippet}/member-update/request-headers.adoc[]
 
 === [Request Path Parameters]
-include::{snippets}/member-update/path-parameters.adoc[]
+include::{snippet}/member-update/path-parameters.adoc[]
 
 === [Request Body]
-include::{snippets}/member-update/request-body.adoc[]
-
-=== [Request Parameters]
-include::{snippets}/member-update/request-body.adoc[]
+include::{snippet}/member-update/request-body.adoc[]
 
 === [Request HTTP Example]
-include::{snippets}/member-update/http-request.adoc[]
-
+include::{snippet}/member-update/http-request.adoc[]
 
 == Response
 
 === [Response Fields]
-include::{snippets}/member-update/response-fields.adoc[]
+include::{snippet}/member-update/response-fields.adoc[]
 
 === [Response HTTP Example]
-include::{snippets}/member-update/http-response.adoc[]
+include::{snippet}/member-update/http-response.adoc[]

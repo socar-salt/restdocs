@@ -11,7 +11,6 @@ import com.salt.sample.restdocs.service.MemberService
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
@@ -53,9 +52,9 @@ class MemberControllerTest(
         // when
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders.post("/member")
-                .header("x-api-key", "salt12345aaa")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header("api-key", "salt12345aaa")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(memberBody))
         ).andDo(MockMvcResultHandlers.print())
 
@@ -68,7 +67,7 @@ class MemberControllerTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     requestHeaders(
-                        headerWithName("x-api-key")
+                        headerWithName("api-key")
                             .description("API 키")
                     ),
                     responseFields(
@@ -99,8 +98,8 @@ class MemberControllerTest(
         // when
         val resultAction = mockMvc.perform(
             RestDocumentationRequestBuilders.get("/member/{memberId}", memberId)
-                .header("x-api-key", "salt12345aaa")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .header("api-key", "salt12345aaa")
+                .accept(MediaType.APPLICATION_JSON)
         ).andDo(MockMvcResultHandlers.print())
 
         // then
@@ -112,7 +111,7 @@ class MemberControllerTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     requestHeaders(
-                        headerWithName("x-api-key")
+                        headerWithName("api-key")
                             .description("API 키")
                     ),
                     pathParameters(
@@ -165,9 +164,9 @@ class MemberControllerTest(
         // when
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders.put("/member/{memberId}", memberId)
-                .header("x-api-key", "salt12345aaa")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .header("api-key", "salt12345aaa")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(memberBody))
         ).andDo(MockMvcResultHandlers.print())
 
@@ -180,7 +179,7 @@ class MemberControllerTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     requestHeaders(
-                        headerWithName("x-api-key")
+                        headerWithName("api-key")
                             .description("API 키")
                     ),
                     pathParameters(
@@ -216,8 +215,8 @@ class MemberControllerTest(
         // when
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders.delete("/member/{memberId}", memberId)
-                .header("x-api-key", "salt12345aaa")
-                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .header("api-key", "salt12345aaa")
+                .accept(MediaType.APPLICATION_JSON)
             ).andDo(MockMvcResultHandlers.print())
 
         // then
@@ -229,7 +228,7 @@ class MemberControllerTest(
                     getDocumentRequest(),
                     getDocumentResponse(),
                     requestHeaders(
-                        headerWithName("x-api-key")
+                        headerWithName("api-key")
                             .description("API 키")
                     ),
                     pathParameters(
