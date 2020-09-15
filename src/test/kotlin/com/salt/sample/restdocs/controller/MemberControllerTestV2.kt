@@ -1,31 +1,16 @@
 package com.salt.sample.restdocs.controller
 
-import com.fasterxml.jackson.databind.ObjectMapper
+
 import com.salt.sample.restdocs.common.ControllerTester
 import com.salt.sample.restdocs.common.TestProperty
 import com.salt.sample.restdocs.domain.member.Member
 import com.salt.sample.restdocs.dto.member.request.MemberBody
-import com.salt.sample.restdocs.service.MemberService
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.restdocs.payload.JsonFieldType
-import org.springframework.test.context.TestConstructor
 import java.time.LocalDate
 
-@WebMvcTest(MemberController::class)
-@AutoConfigureRestDocs
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class MemberControllerTestV2(
-    private var mockMvc: MockMvc,
-    private var objectMapper: ObjectMapper
-) {
-
-    @MockBean
-    lateinit var memberService: MemberService
+class MemberControllerTestV2: BaseControllerTest() {
 
     @Test
     fun `member-create-V2`() {
