@@ -3,6 +3,7 @@ package com.salt.sample.restdocs.controller
 
 import com.salt.sample.restdocs.common.ControllerTester
 import com.salt.sample.restdocs.common.TestProperty
+import com.salt.sample.restdocs.domain.member.enum.MemberTypeCode
 import com.salt.sample.restdocs.domain.member.Member
 import com.salt.sample.restdocs.dto.member.request.MemberBody
 import org.junit.jupiter.api.Test
@@ -16,7 +17,7 @@ class MemberControllerTestV2: BaseControllerTest() {
     fun `member-create-V2`() {
 
         val memberId = 1L
-        val memberBody = MemberBody(memberId, "salt", LocalDate.now())
+        val memberBody = MemberBody(memberId, "salt", LocalDate.now(), MemberTypeCode.MEMBER)
 
         // given
         given(memberService.create(memberBody)).willReturn(memberId)
@@ -25,7 +26,8 @@ class MemberControllerTestV2: BaseControllerTest() {
         val dummy = arrayOf(
             TestProperty("id", "회원번호", memberBody.id.toString()),
             TestProperty("name", "이름", memberBody.name),
-            TestProperty("joinDate", "가입일", memberBody.joinDate.toString())
+            TestProperty("joinDate", "가입일", memberBody.joinDate.toString()),
+            TestProperty("type", "회원구분", memberBody.type.code)
         )
         val tester = ControllerTester(mockMvc, dummy)
         tester.post("/member", objectMapper.writeValueAsString(memberBody))
@@ -41,7 +43,7 @@ class MemberControllerTestV2: BaseControllerTest() {
         val tester = ControllerTester(mockMvc, arrayOf())
 
         // given
-        given(memberService.retrieval(memberId)).willReturn(Member(MemberBody(memberId, "salt", LocalDate.now())))
+        given(memberService.retrieval(memberId)).willReturn(Member(MemberBody(memberId, "salt", LocalDate.now(), MemberTypeCode.MEMBER)))
 
         // when
         tester.get("/member/$memberId")
@@ -54,7 +56,7 @@ class MemberControllerTestV2: BaseControllerTest() {
     fun `member-update-V2`() {
 
         val memberId = 1L
-        val memberBody = MemberBody(memberId, "sugar", LocalDate.now())
+        val memberBody = MemberBody(memberId, "sugar", LocalDate.now(), MemberTypeCode.MEMBER)
         val dummy = arrayOf(
             TestProperty("id", memberBody.id.toString()),
             TestProperty("name", memberBody.name)

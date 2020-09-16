@@ -3,6 +3,7 @@ package com.salt.sample.restdocs.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.salt.sample.restdocs.common.RestApiDocumentation.getDocumentRequest
 import com.salt.sample.restdocs.common.RestApiDocumentation.getDocumentResponse
+import com.salt.sample.restdocs.domain.member.enum.MemberTypeCode
 import com.salt.sample.restdocs.domain.member.Member
 import com.salt.sample.restdocs.dto.member.request.MemberBody
 import com.salt.sample.restdocs.extension.maxLength
@@ -43,7 +44,7 @@ class MemberControllerTest(
     fun `member-create`() {
 
         val memberId = 1L
-        val memberBody = MemberBody(memberId, "salt", LocalDate.now())
+        val memberBody = MemberBody(memberId, "salt", LocalDate.now(), MemberTypeCode.MEMBER)
 
         // given
         given(memberService.create(memberBody))
@@ -53,8 +54,8 @@ class MemberControllerTest(
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders.post("/member")
                 .header("api-key", "salt12345aaa")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(memberBody))
         ).andDo(MockMvcResultHandlers.print())
 
@@ -72,7 +73,7 @@ class MemberControllerTest(
                     ),
                     responseFields(
                         fieldWithPath("code")
-                            .type(JsonFieldType.NUMBER)
+                            .type(JsonFieldType.STRING)
                             .description("응답 코드"),
                         fieldWithPath("message")
                             .type(JsonFieldType.STRING)
@@ -89,7 +90,7 @@ class MemberControllerTest(
     fun `member-retrieval`() {
 
         val memberId = 1L
-        val memberBody = MemberBody(memberId, "salt", LocalDate.now())
+        val memberBody = MemberBody(memberId, "salt", LocalDate.now(), MemberTypeCode.MEMBER)
 
         // given
         given(memberService.retrieval(memberId))
@@ -155,7 +156,7 @@ class MemberControllerTest(
     fun `member-update`() {
 
         val memberId = 1L
-        val memberBody = MemberBody(memberId, "sugar", LocalDate.now())
+        val memberBody = MemberBody(memberId, "sugar", LocalDate.now(), MemberTypeCode.MEMBER)
 
         // given
         given(memberService.update(memberBody))

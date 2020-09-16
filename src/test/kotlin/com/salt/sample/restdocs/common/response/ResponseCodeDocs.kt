@@ -1,6 +1,6 @@
 package com.salt.sample.restdocs.common.response
 
-import com.salt.sample.restdocs.domain.base.enum.ResponseCode
+import com.salt.sample.restdocs.domain.core.enum.ResponseCode
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -60,7 +60,7 @@ class ResponseCodeDocs {
   private fun convertResponseCodeToFieldDescriptor(enumTypes: Array<ResponseCode>): Array<FieldDescriptor> {
 	return Arrays.stream(enumTypes)
 			.map {
-			  fieldWithPath(it.code.toString()).type(JsonFieldType.NUMBER).description(it.message).optional()
+			  fieldWithPath(it.code.toString()).type(JsonFieldType.NUMBER).description(it.description).optional()
 			}
 			.collect(Collectors.toList())
 			.toTypedArray()

@@ -33,7 +33,7 @@ object CommonDocumentation {
 
     fun common(jsonFieldType: JsonFieldType): Array<FieldDescriptor> {
         return arrayOf(
-            PayloadDocumentation.fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+            PayloadDocumentation.fieldWithPath("code").type(JsonFieldType.STRING).description("응답 코드"),
             PayloadDocumentation.fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지"),
             PayloadDocumentation.subsectionWithPath("data").type(jsonFieldType).description("응답 Data").optional()
         )
