@@ -32,6 +32,7 @@ ifndef::snippet[]
 endif::[]
 
 = 공통 Response Code
+[[response-code]]
 include::{snippet}/common/response-code-fields.adoc[]
 
 = 사용자 생성 API

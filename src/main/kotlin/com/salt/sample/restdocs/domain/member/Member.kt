@@ -16,7 +16,7 @@ class Member(memberBody: MemberBody) : BaseEntity() {
     var id: Long = memberBody.id
     val name: String? = memberBody.name
     val joinDate: LocalDate? = memberBody.joinDate
-    val type: MemberTypeCode? = MemberTypeCode.MEMBER
+    val type: MemberTypeCode? = memberBody.type
 
     companion object {
         const val TABLE_NAME = "member_info"

@@ -25,7 +25,7 @@ class MemberControllerTestV2: BaseControllerTest() {
         // when
         val dummy = arrayOf(
             TestProperty("id", "회원번호", memberBody.id.toString()),
-            TestProperty("name", "이름", memberBody.name),
+            TestProperty("name", "<<response-code, 이름>>", memberBody.name),
             TestProperty("joinDate", "가입일", memberBody.joinDate.toString()),
             TestProperty("type", "회원구분", memberBody.type.code)
         )

@@ -13,6 +13,9 @@ include::{snippet}/member-create/request-headers.adoc[]
 === [Request Body]
 include::{snippet}/member-create/request-body.adoc[]
 
+=== [Request Fields]
+include::{snippet}/member-create/name-parameters.adoc[]
+
 === [Request HTTP Example]
 include::{snippet}/member-create/http-request.adoc[]
 
